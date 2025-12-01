@@ -5,10 +5,15 @@ YEAR = 2024
 DAY = 1
 
 class Part1:
-    def __init__(self, raw_input):
+    def __init__(self, raw_input, eg_input=None):
         self.raw_input = raw_input
+        if eg_input == None or len(raw_input) < 1:
+            print("No Example Input")
         if raw_input == None or len(raw_input) < 1:
             raise KeyError("Forgor input value")
+        self.eg_input = eg_input.split("\n")
+        self.input = self.raw_input.split("\n")
+        #self.input = self.eg_input
     
     def solve(self):
         pass
@@ -17,10 +22,15 @@ class Part1:
         return str(self.__dict__)
     
 class Part2:
-    def __init__(self, raw_input):
+    def __init__(self, raw_input, eg_input=None):
         self.raw_input = raw_input
+        if eg_input == None or len(raw_input) < 1:
+            print("No Example Input")
         if raw_input == None or len(raw_input) < 1:
             raise KeyError("Forgor input value")
+        self.eg_input = eg_input.split("\n")
+        self.input = self.raw_input.split("\n")
+        #self.input = self.eg_input
         
     def solve(self):
         pass
@@ -32,13 +42,13 @@ class Runner:
     def __init__(self):
         try:
             self.loader = AOCLoader(year=YEAR, day=DAY)
-            self.puzzle_input = self.loader.load_input()
-            print(f"Success! Input starts with: {self.puzzle_input[:20]}...")
+            self.puzzle_input, self.eg_input = self.loader.load_input()
+            print(f"Successfully read data!")
         except ValueError as e:
             print(e)
 
-        self.part1 = self._run_and_time("Part 1", Part1, copy.deepcopy(self.puzzle_input))
-        self.part2 = self._run_and_time("Part 2", Part2, copy.deepcopy(self.puzzle_input))
+        self.part1 = self._run_and_time("Part 1", Part1, copy.deepcopy(self.puzzle_input), copy.deepcopy(self.eg_input))
+        self.part2 = self._run_and_time("Part 2", Part2, copy.deepcopy(self.puzzle_input), copy.deepcopy(self.eg_input))
 
     def _run_and_time(self, label, func, *args):
         runnable = func(*args)
@@ -46,5 +56,7 @@ class Runner:
         result = runnable.solve()
         end_time = time.perf_counter()
         duration_ms = (end_time - start_time) * 1000
-        print(f"{label} Execution Time: {duration_ms:.4f} ms")
+        print("=============================================")
+        print(f"{label} | Result: [{result}] | Execution Time: {duration_ms:.4f} ms | ")
+        print("=============================================")
         return result
