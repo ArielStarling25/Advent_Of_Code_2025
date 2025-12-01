@@ -1,7 +1,7 @@
 import time, os, threading, copy
 from AOC_Loader import AOCLoader
 
-YEAR = 2024
+YEAR = 2025
 DAY = 1
 
 class Part1:

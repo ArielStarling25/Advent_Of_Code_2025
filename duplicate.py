@@ -10,7 +10,7 @@ def duplicate_template():
     if len(sys.argv) > 1:
         new_filename = sys.argv[1]
     else:
-        new_filename = input("Enter the name for the new file (e.g., day_01.py): ").strip()
+        new_filename = input("Enter the name for the new file (e.g., aoc_day_1.py): ").strip()
     if not new_filename:
         print("Operation cancelled: No filename provided.")
         return
