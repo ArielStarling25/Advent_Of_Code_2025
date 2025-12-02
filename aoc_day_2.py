@@ -105,7 +105,16 @@ class Runner:
         result = runnable.solve()
         end_time = time.perf_counter()
         duration_ms = (end_time - start_time) * 1000
-        print("=============================================")
-        print(f"{label} | Result: [{result}] | Execution Time: {duration_ms:.4f} ms | ")
-        print("=============================================")
+        if '67' in f"{duration_ms:.4f}":
+            print("6767676767676767676767676767676767676767676767")
+            print(f"{label} | Result: [{result}] | Execution Time: {duration_ms:.4f} ms | ")
+            print("6767676767676767676767676767676767676767676767")
+        elif '69' in f"{duration_ms:.4f}":
+            print("6969696969696969696969696969696969696969696969")
+            print(f"{label} | Result: [{result}] | Execution Time: {duration_ms:.4f} ms | ")
+            print("6969696969696969696969696969696969696969696969")
+        else:
+            print("=============================================")
+            print(f"{label} | Result: [{result}] | Execution Time: {duration_ms:.4f} ms | ")
+            print("=============================================")
         return result
