@@ -37,7 +37,9 @@ class AOCLoader:
             with open(self.eg_file, 'r') as f:
                 self.eg_data = f.read().strip()
         else:
-            print(f"Example Data not available...")
+            print(f"Example Data not available..., creating new empty text file")
+            with open(self.eg_file, 'w') as f:
+                pass
         return self.input_data, self.eg_data
 
     def _fetch_from_server(self):
