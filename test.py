@@ -1,9 +1,10 @@
-from AOC_Loader import AOCLoader
-import os
+def rem_leading_and_trailing_duplicates(string):
+    item_log = {}
+    new_str = ""
+    for char in string:
+        item_log[str(char)] = "GUH"
+    for key, value in item_log.items():
+        new_str += key
+    print(new_str)
 
-try:
-    loader = AOCLoader(year=2024, day=1)
-    puzzle_input = loader.load_input()
-    print(f"Success! Input starts with: {puzzle_input[:20]}...")
-except ValueError as e:
-    print(e)
+rem_leading_and_trailing_duplicates("hhhhhellooooo")

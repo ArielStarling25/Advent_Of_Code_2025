@@ -1,8 +1,8 @@
 import time, os, threading, copy, math
 from AOC_Loader import AOCLoader
 
-YEAR = 2024
-DAY = 1
+YEAR = 2025
+DAY = 3
 
 class Part1:
     def __init__(self, raw_input, eg_input=""):
@@ -14,9 +14,33 @@ class Part1:
         self.eg_input = eg_input.split("\n")
         self.input = self.raw_input.split("\n")
         #self.input = self.eg_input
+        self.joltages = []
     
     def solve(self):
-        pass
+        for bank in self.input:
+            # ????????????????????????????????????????????????????????????????????
+            # pointer_1 = [len(bank)-2, bank[len(bank)-2]]
+            # for i in range(len(bank)-2, -1, -1):
+            #     if bank[i] >= pointer_1[1]:
+            #         pointer_1[0] = i
+            #         pointer_1[1] = bank[i]
+            # ???????????????????????????????????????????????????????????????????? WHY NO WORK FROM RIGHT TO LEFT
+            pointer_1 = [0, bank[0]]
+            for i in range(0, len(bank)-1):
+                if bank[i] > pointer_1[1]:
+                    pointer_1[0] = i
+                    pointer_1[1] = bank[i]
+            # ????????????????????????????????????????????????????????????????????
+            pointer_2 = [pointer_1[0]+1, bank[pointer_1[0]+1]]
+            for i in range(pointer_1[0]+1, len(bank)):
+                if bank[i] > pointer_2[1]:
+                    pointer_2[0] = i
+                    pointer_2[1] = bank[i]
+
+            final = str(pointer_1[1]+pointer_2[1])
+            #print(f"Final:[{final}] | For:[{bank}]")
+            self.joltages.append(int(final))
+        return sum(self.joltages)
 
     def __str__(self):
         return str(self.__dict__)
@@ -31,9 +55,32 @@ class Part2:
         self.eg_input = eg_input.split("\n")
         self.input = self.raw_input.split("\n")
         #self.input = self.eg_input
+        self.num_of_required_digits = 12
+        self.joltages = []
         
     def solve(self):
-        pass
+        for bank in self.input:
+            if self.num_of_required_digits > len(bank):
+                print("Too large")
+                return
+            if self.num_of_required_digits == len(bank):
+                self.joltages.append(int(bank))
+                continue
+            final = ""
+            pointer = self.finder([0, bank[0]], bank, 0, len(bank)-self.num_of_required_digits)
+            final += pointer[1]
+            for i in range(0, self.num_of_required_digits-1):
+                pointer = self.finder([pointer[0]+1, bank[pointer[0]+1]], bank, (pointer[0]+1), (len(bank)-(self.num_of_required_digits-(i+1))))
+                final += pointer[1]
+            self.joltages.append(int(final))
+        return sum(self.joltages)
+    
+    def finder(self, pointer, bank, start_pos, end_pos):
+        for i in range(start_pos, end_pos+1):
+            if bank[i] > pointer[1]:
+                pointer[0] = i
+                pointer[1] = bank[i]
+        return pointer
 
     def __str__(self):
         return str(self.__dict__)
