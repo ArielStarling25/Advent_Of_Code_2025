@@ -75,6 +75,54 @@ class Part2:
             self.joltages.append(int(final))
         return sum(self.joltages)
     
+    # def solve(self):
+    #     answer = 0
+    #     for bank in self.input:
+    #         for index in range(self.num_of_required_digits-1, -1, -1):
+    #             if index:
+    #                 answer += 10 ** index * int(max(bank[: -index]))
+    #                 bank = bank[bank.index(max(bank[: -index])) + 1:]
+    #             else:
+    #                 answer += int(max(bank))
+    #     return answer
+
+    # def solve(self):
+    #     total = 0
+    #     for bank in self.input:
+    #         curr = 0
+    #         n = len(bank)
+    #         r = n
+    #         k = self.num_of_required_digits
+    #         start = 0
+    #         while k > 0:
+    #             print("===")
+    #             w = r - k + 1
+    #             print("w", w)
+    #             window = bank[start:(start+w)]
+    #             print("window", window)
+    #             max_val, idx = self.max_idx(window)
+    #             print("max_val", max_val)
+    #             print("idx", idx)
+    #             curr = (curr*10)+(int(max_val))
+    #             print("curr", curr)
+    #             r = n - start - idx - 1
+    #             print("r", r)
+    #             k -= 1
+    #             print("k", k)
+    #             start = start + idx + 1
+    #             print("start", start)
+    #         total += curr
+    #     return total
+
+    # def max_idx(self, window):
+    #     max_val = "0"
+    #     idx = 0
+    #     for i in range(len(window)-1, -1, -1):
+    #         if window[i] > max_val:
+    #             idx = i
+    #             max_val = window[i]
+    #     return max_val, idx
+    
     def finder(self, pointer, bank, start_pos, end_pos):
         for i in range(start_pos, end_pos+1):
             if bank[i] > pointer[1]:
