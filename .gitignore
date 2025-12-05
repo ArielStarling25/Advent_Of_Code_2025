@@ -175,3 +175,4 @@ cython_debug/
 
 # Others
 aoc_inputs
+aoc_outputs

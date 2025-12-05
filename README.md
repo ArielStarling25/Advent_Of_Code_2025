@@ -24,6 +24,6 @@
 | 04 | [Printing Department](https://adventofcode.com/2025/day/4) | `7.32 ms` | `196.17 ms` | [View](aoc_day_4.py) |
 | 05 | [Cafeteria](https://adventofcode.com/2025/day/5) | `59.53 ms` | `0.29 ms` | [View](aoc_day_5.py) |
 
-> **Note:** Times are measured on intel i5-11400H excluding input parsing overhead.
+> **Note:** Times are measured on an Intel i5-11400H Laptop excluding input parsing overhead.
 
 ---
