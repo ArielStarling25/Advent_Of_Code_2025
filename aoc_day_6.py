@@ -45,20 +45,12 @@ class Part2:
             raise KeyError("Forgor input value")
         self.eg_input = eg_input.split('\n')
         self.input = self.raw_input.split('\n')
-        self.input = self.eg_input
+        #self.input = self.eg_input
         self.grand_total = 0
-
-        self.input_counter = []
-        for i in range(len(self.input)):
-            self.input_counter.append(self.input[i].split())
-
         self.input_parsed = []
-        #print(self.input[i])
-        for input_string in self.input:
-            item = [input_string[i:i+3] for i in range(0, len(input_string), 4)]
-            self.input_parsed.append(item)
         
     def solve(self):
+        self.input_parsed = self.parse_columns(self.input)
         columns = list(zip(*self.input_parsed))
         parsed_columns = []
         operators = []
@@ -69,8 +61,6 @@ class Part2:
             operators.append(item[len(item)-1].replace(" ", ""))
             item.pop()
             vertical_nums.append(["".join(chars).replace(" ","") for chars in zip(*item)])
-        # pprint.pprint(parsed_columns)
-        # pprint.pprint(vertical_nums)
         if len(vertical_nums) != len(operators):
             print(f"Error: length of operators doesnt match with vertical_nums")
         try:
@@ -79,7 +69,7 @@ class Part2:
                 for number in vertical_nums[i]:
                     if number == '':
                         continue
-                    print(f"cumulative:{column_total}|number:{number}|operator:{operators[i]}")
+                    #print(f"cumulative:{column_total}|number:{number}|operator:{operators[i]}")
                     if operators[i] == "+":
                         column_total += int(number)
                     elif operators[i] == "*":
@@ -90,6 +80,33 @@ class Part2:
         except Exception as e:
             print(e.__traceback__)
         return self.grand_total
+    
+    def parse_columns(self, input_arr):
+        # print("INPUT")
+        # pprint.pprint(input_arr)
+        column_slices = []
+        output_array = []
+        in_column = False
+        start = 0
+        combined_max_len = max(len(string) for string in input_arr)
+        for i in range(combined_max_len):
+            in_empty_column = all(line[i].isspace() for line in input_arr)
+            if not in_column and not in_empty_column:
+                in_column = True
+                start = i
+            elif in_column and in_empty_column:
+                column_slices.append([start, i])
+                in_column = False
+        if in_column:
+            column_slices.append([start, combined_max_len])
+        for string in input_arr:
+            row = []
+            for item in column_slices:
+                row.append(string[item[0]:item[1]])
+            output_array.append(row)
+        # print("OUTPUT")
+        # pprint.pprint(output_array)
+        return output_array
 
     def __str__(self):
         return str(self.__dict__)
@@ -97,7 +114,7 @@ class Part2:
 class Runner:
     def __init__(self):
         try:
-            self.loader = AOCLoader(year=YEAR, day=DAY)
+            self.loader = AOCLoader(year=YEAR, day=DAY, strip_input=False)
             self.puzzle_input, self.eg_input = self.loader.load_input()
             print(f"Successfully read data!")
         except ValueError as e:

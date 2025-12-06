@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class AOCLoader:
-    def __init__(self, year: int, day: int, session_cookie: str = None):
+    def __init__(self, year: int, day: int, session_cookie: str = None, strip_input = True):
         self.year = year
         self.day = day
         self.session_cookie = session_cookie or os.getenv('AOC_SESSION')
@@ -18,6 +18,7 @@ class AOCLoader:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.cache_file = self.cache_dir / f"day_{day}.txt"
         self.eg_file = self.cache_dir / f"day_{day}_eg.txt"
+        self.strip_input = strip_input
 
     def load_input(self) -> str:
         """
@@ -27,7 +28,10 @@ class AOCLoader:
         if self.cache_file.exists():
             print(f"Reading input for Day {self.day} from cache...")
             with open(self.cache_file, 'r') as f:
-                self.input_data = f.read().strip()
+                if self.strip_input:
+                    self.input_data = f.read().strip()
+                else:
+                    self.input_data = f.read()
         else:
             print(f"Fetching input for Day {self.day} from server...")
             self._fetch_from_server()
@@ -35,7 +39,10 @@ class AOCLoader:
         if self.eg_file.exists():
             print(f"Reading example for Day {self.day} from cache...")
             with open(self.eg_file, 'r') as f:
-                self.eg_data = f.read().strip()
+                if self.strip_input:
+                    self.eg_data = f.read().strip()
+                else:
+                    self.eg_data = f.read()
         else:
             print(f"Example Data not available..., creating new empty text file")
             with open(self.eg_file, 'w') as f:
@@ -51,7 +58,10 @@ class AOCLoader:
         }
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
-            self.input_data = response.text.strip()
+            if self.strip_input:
+                self.input_data = response.text.strip()
+            else:
+                self.input_data = response.text
             # Save to cache immediately
             with open(self.cache_file, 'w') as f:
                 f.write(self.input_data)
