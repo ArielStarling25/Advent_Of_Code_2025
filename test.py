@@ -1,20 +1,9 @@
 
-# array = [1, 2, 3, 4, 5]
-# for i in range(len(array)):
-#     if array[i] in [2, 4]:
-#         array.pop(i)
-#         i -= 1
-#     print(array)
+arr = ["1 3", "456", " 89"]
 
-array = [1, 2, 3, 4, 5]
-i = 0
-while i < len(array):
-    if array[i] in [2, 4]:
-        array.pop(i)
-        # We do NOT increment i here, because the next item 
-        # has shifted into the current spot.
-    else:
-        # Only move to the next index if we didn't remove anything
-        i += 1
-    print(array)
+string_item = "123 456 789"
+
+new_arr = ["".join(chars).replace(" ", "") for chars in zip(*arr)]
+
+print(new_arr)
     
