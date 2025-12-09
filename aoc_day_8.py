@@ -22,7 +22,7 @@ class Part1:
         self.parent = {i: i for i in range(len(self.coordinates))} # maps a node index to its parent index
         self.size = {i: 1 for i in range(len(self.coordinates))} # maps a root index to the number of nodes in that circuit
         self.connection_limit = len(self.coordinates)
-        pprint.pprint(self.coordinates)
+        #pprint.pprint(self.coordinates)
     
     def solve(self):
         edges = []
@@ -36,11 +36,11 @@ class Part1:
         circuit_sizes.sort(reverse=True)
         if len(circuit_sizes) >= 3:
             result = circuit_sizes[0] * circuit_sizes[1] * circuit_sizes[2]
-            print(f"Circuit sizes: {circuit_sizes}")
-            print(f"Top 3 Product: {result}")
+            #print(f"Circuit sizes: {circuit_sizes}")
+            #print(f"Top 3 Product: {result}")
             return result
         else:
-            print("Not enough circuits formed to calculate top 3.")
+            #print("Not enough circuits formed to calculate top 3.")
             return 0
 
     def find(self, i):
