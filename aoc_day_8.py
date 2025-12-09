@@ -1,8 +1,9 @@
 import time, os, threading, copy, math, pprint, csv
 from AOC_Loader import AOCLoader
+from itertools import combinations
 
-YEAR = 2024
-DAY = 1
+YEAR = 2025
+DAY = 8
 
 class Part1:
     def __init__(self, raw_input, eg_input=""):
@@ -14,9 +15,53 @@ class Part1:
         self.eg_input = eg_input.split("\n")
         self.input = self.raw_input.split("\n")
         #self.input = self.eg_input
+        self.coordinates = []
+        for item in self.input:
+            parts = list(map(int, item.split(",")))
+            self.coordinates.append(tuple(parts))
+        self.parent = {i: i for i in range(len(self.coordinates))} # maps a node index to its parent index
+        self.size = {i: 1 for i in range(len(self.coordinates))} # maps a root index to the number of nodes in that circuit
+        self.connection_limit = len(self.coordinates)
+        pprint.pprint(self.coordinates)
     
     def solve(self):
-        pass
+        edges = []
+        for i, j in combinations(range(len(self.coordinates)), 2): # Generate all possible pairs (edges) with their distances                  
+            dist = self.calc_dist_3d(self.coordinates[i], self.coordinates[j])
+            edges.append((dist, i, j))
+        edges.sort(key=lambda x: x[0]) # ascending
+        for dist, u, v in edges[:1000]: # Process n number of shortest edges
+            self.union(u, v)
+        circuit_sizes = list(self.size.values()) # Get sizes of all remaining circuits
+        circuit_sizes.sort(reverse=True)
+        if len(circuit_sizes) >= 3:
+            result = circuit_sizes[0] * circuit_sizes[1] * circuit_sizes[2]
+            print(f"Circuit sizes: {circuit_sizes}")
+            print(f"Top 3 Product: {result}")
+            return result
+        else:
+            print("Not enough circuits formed to calculate top 3.")
+            return 0
+
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+    
+    def union(self, i, j):
+        root_i = self.find(i)
+        root_j = self.find(j)
+        if root_i != root_j:
+            if self.size[root_i] < self.size[root_j]:
+                root_i, root_j = root_j, root_i
+            self.parent[root_j] = root_i
+            self.size[root_i] += self.size[root_j]
+            del self.size[root_j]
+            return True # Connection made
+        return False # Already connected
+
+    def calc_dist_3d(self, point1, point2):
+        return math.sqrt(sum((a - b) ** 2 for a, b in zip(point1, point2)))
 
     def __str__(self):
         return str(self.__dict__)
@@ -30,7 +75,12 @@ class Part2:
             raise KeyError("Forgor input value")
         self.eg_input = eg_input.split("\n")
         self.input = self.raw_input.split("\n")
-        #self.input = self.eg_input
+        self.input = self.eg_input
+        self.coordinates = {}
+        for item in self.input:
+            x, y, z = map(int, item.split(","))
+            self.coordinates[(x,y,z)] = []
+        # pprint.pprint(self.coordinates)
         
     def solve(self):
         pass
